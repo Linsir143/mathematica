@@ -1,0 +1,26 @@
+T = {}; Do[
+ t = 180/Pi ArcTan[
+    Sin[a*Pi/180]/(Cos[a Pi/180] + 
+       Csc[a Pi/180 + b Pi/180] Sin[a Pi/180])]; 
+ If[Abs[N[t] - Round[N[t]]] < 10^-6 && Round[N[t]] =!= a/2, 
+  T = Union[T, {{a, b, N[t] // Round}}]], {a, 1, 179}, {b, 1, 
+  179 - a}];
+Table[{a, b, t} = T[[i]];
+ d1 = {0.0, 0.0}; b1 = {1.0, 0}; 
+ c1 = {1.0 (Sin[b*Pi/180] Cos[a Pi/180])/Sin[a Pi/180 + b Pi/180], 
+   1.0 (Sin[b Pi/180] Sin[a Pi/180])/Sin[a Pi/180 + b Pi/180]}; 
+ a1 = {(-Sin[a Pi/180] Cos[a Pi/180]*1.0)/
+    Sin[a Pi/180 + b Pi/180], (-Sin[a Pi/180]^2*1.0)/
+    Sin[a Pi/180 + b Pi/180]};
+ Graphics[{Style[Line[{d1, c1}]], Style[Line[{b1, d1}]], 
+   Style[Line[{b1, a1}]], Style[Line[{a1, d1}], Red], 
+   Style[Line[{b1, c1}], Red], Inset[Style["D", FontSize -> 12], d1], 
+   Inset[Style["B", FontSize -> 12], b1], 
+   Inset[Style["C", FontSize -> 12], c1], 
+   Inset[Style[a \[Degree], FontSize -> 18], d1 + {-0.1, 0.07}], 
+   Inset[Style[b \[Degree], FontSize -> 18], b1 + {0.1, 0.07}], 
+   Inset[Style[Round[t] \[Degree], FontSize -> 18], a1 + {0.0, -0.1}],
+    Inset[Style["A", FontSize -> 12], a1], 
+   Style[Circle[d1, 0.05, {0, a*Pi/180}], Red], 
+   Style[Circle[b1, 0.05, {Pi - b*Pi/180, Pi}], Red]}, 
+  ImageSize -> Medium], {i, 1, Length[T]}]
